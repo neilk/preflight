@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+#JavaScript Lint 0.3.0 (JavaScript-C 1.5 2004-09-24)
+#Developed by Matthias Miller (http://www.JavaScriptLint.com)
+#
+#Usage: jsl [-help:conf]
+#	[-conf filename] [-process filename] [+recurse|-recurse] [-stdin]
+#	[-nologo] [-nofilelisting] [-nocontext] [-nosummary] [-output-format ______]
+#
+#Error levels:
+#  0 - Success
+#  1 - JavaScript warnings
+#  2 - Usage or configuration error
+#  3 - JavaScript error
+#  4 - File error
+#
+/opt/local/bin/jsl -nofilelisting -nologo -nosummary -conf ~/bin/jsl.conf -process $*

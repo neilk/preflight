@@ -1,0 +1,5 @@
+Miscellaneous utilities useful just before commiting files to a repository.
+
+* cleanmerge -- post merge, removes spurious svn info changes from files that you didn't touch.
+* jslint, jsl.conf -- convenience shell utility and configuration for JSLint
+* preflight -- lint everything that was changed

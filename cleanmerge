@@ -1,0 +1,41 @@
+#!/usr/bin/perl -w
+# For SVN working directories, eliminates files that only have mergeinfo changed from the commit.
+
+my $files = sub {
+  my @files;
+  open my $svnStatus, '-|', "svn status" or die $!;
+  while (<$svnStatus>) {
+    my ($status, $mergeinfo, $file) = ($_ =~ /^(.)(.)\s+(\S+)/);
+    if ( $status eq ' ' and $mergeinfo eq 'M' ) {
+      push @files, $file;
+    }
+  }
+  close $svnStatus or die $!;
+  return \@files;
+};
+
+my $batcher = sub {
+  my ($items, $step, $action) = @_;
+  my $i = 0;
+  while ( $i < $#$items ) {
+    my $end = $i + $step - 1;
+    if ( $end > $#$items ) {
+      $end = $#$items;
+    }
+    $action->( @$items[ $i .. $end ] );
+    $i += $step;
+  }
+};
+
+my $reverter = sub {
+  system( "svn revert @_" ) and die $!;
+};
+
+
+$batcher->( $files->(), 50, $reverter );
+
+
+# $batcher->( [ ("x","y") x 37 ], 10, $tester );
+# my $tester = sub {
+#   print "Got: @_\n";
+#};
